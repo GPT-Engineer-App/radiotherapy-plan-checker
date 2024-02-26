@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Box, Button, Container, Divider, FormControl, FormLabel, Heading, Input, Stack, Textarea, VStack, useToast } from "@chakra-ui/react";
-import { FaCheckCircle } from "react-icons/fa";
+import { Button, Container, Divider, FormControl, FormLabel, Heading, Input, Textarea, VStack, useToast } from "@chakra-ui/react";
+import { FaCheckCircle, FaFileUpload } from "react-icons/fa";
 
 const Index = () => {
   const [patientId, setPatientId] = useState("");
   const [notes, setNotes] = useState("");
+  const [dicomFile, setDicomFile] = useState(null);
   const toast = useToast();
 
   const handleSubmit = () => {
@@ -30,11 +31,15 @@ const Index = () => {
           <FormLabel>Patient ID</FormLabel>
           <Input placeholder="Enter Patient ID" value={patientId} onChange={(e) => setPatientId(e.target.value)} />
         </FormControl>
-        <FormControl id="notes">
+        <FormControl id="dicom-file" mt={4}>
+          <FormLabel>Upload DICOM File</FormLabel>
+          <Input type="file" accept=".dcm" onChange={(e) => setDicomFile(e.target.files[0])} />
+        </FormControl>
+        <FormControl id="notes" mt={4}>
           <FormLabel>Notes</FormLabel>
           <Textarea placeholder="Enter any relevant notes here..." value={notes} onChange={(e) => setNotes(e.target.value)} />
         </FormControl>
-        <Button leftIcon={<FaCheckCircle />} colorScheme="green" onClick={handleSubmit} isDisabled={!patientId}>
+        <Button leftIcon={<FaCheckCircle />} colorScheme="green" onClick={handleSubmit} isDisabled={!patientId || !dicomFile}>
           Submit Plan
         </Button>
       </VStack>
